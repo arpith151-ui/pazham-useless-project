@@ -85,7 +85,7 @@ function cleanBase64(str: string): string {
   return commaIdx !== -1 ? str.slice(commaIdx + 1) : str;
 }
 
-function withTimeout<T>(promise: Promise<T>, ms = 6000): Promise<T> {
+function withTimeout<T>(promise: Promise<T>, ms = 20000): Promise<T> {
   return Promise.race([
     promise,
     new Promise<T>((_, reject) =>
@@ -153,7 +153,7 @@ Set isAppeal: false.`;
       }
     });
 
-    const response = await withTimeout(callPromise, 6000);
+    const response = await withTimeout(callPromise, 20000);
     const text = response.text;
     if (!text) {
       throw new Error("Empty response from Gemini");
@@ -231,7 +231,7 @@ Return strictly JSON adhering to schema with isAppeal: true.`;
       }
     });
 
-    const response = await withTimeout(callPromise, 6000);
+    const response = await withTimeout(callPromise, 20000);
     const text = response.text;
     if (!text) {
       throw new Error("Empty response from Gemini");

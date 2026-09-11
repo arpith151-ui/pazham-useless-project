@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { ExplanationItem } from '../../types';
-import { HelpCircle, Sparkles } from 'lucide-react';
+import { HelpCircle } from 'lucide-react';
 
 interface ProbabilityBreakdownProps {
   explanations: ExplanationItem[];
@@ -12,12 +12,12 @@ export const ProbabilityBreakdown: React.FC<ProbabilityBreakdownProps> = ({ expl
 
   return (
     <div className="space-y-4 my-6">
-      <div className="flex items-center justify-between border-b border-white/20 pb-2">
-        <span className="font-heading text-base text-[#00F5FF] uppercase tracking-wide flex items-center gap-2">
-          <HelpCircle className="w-5 h-5 text-[#FF007F]" />
-          SECTION 3: ALTERNATE THEORIES & HYPOTHESIS SPECTRUM
+      <div className="flex items-center justify-between border-b-2 border-[#E6DFD1] pb-2">
+        <span className="font-heading text-base text-[#1F1C18] uppercase tracking-wide flex items-center gap-2">
+          <HelpCircle className="w-5 h-5 text-[#FF5E57]" />
+          ALTERNATE THEORIES & HYPOTHESIS SPECTRUM
         </span>
-        <span className="font-mono-doc text-xs text-slate-300 font-bold bg-white/10 px-2.5 py-0.5 rounded-lg border border-white/20">
+        <span className="font-mono-doc text-xs text-[#5C5549] font-bold bg-[#FAF6EE] px-2.5 py-0.5 rounded-lg border border-[#E6DFD1]">
           RANKED BY PROBABILITY
         </span>
       </div>
@@ -29,29 +29,29 @@ export const ProbabilityBreakdown: React.FC<ProbabilityBreakdownProps> = ({ expl
           return (
             <div
               key={idx}
-              className="bg-black/45 border border-white/15 p-3.5 rounded-2xl relative overflow-hidden backdrop-blur-md"
+              className="bg-[#FAF6EE] border-2 border-[#E6DFD1] p-3.5 sm:p-4 rounded-2xl relative overflow-hidden transition-all hover:border-[#FF5E57]"
             >
               <div className="flex justify-between items-baseline gap-2 font-chunky text-sm mb-2">
-                <span className="text-white font-semibold leading-tight">
-                  <span className="text-[#FF007F] font-black mr-2 font-mono-doc">[{idx + 1}]</span>
+                <span className="text-[#1F1C18] font-bold leading-tight">
+                  <span className="text-[#FF5E57] font-black mr-2 font-mono-doc">[{idx + 1}]</span>
                   {item.label}
                 </span>
-                <span className="font-mono-doc font-black text-[#00F5FF] shrink-0 tabular-nums text-base">
+                <span className="font-mono-doc font-black text-[#FF5E57] shrink-0 tabular-nums text-base bg-white px-2 py-0.5 rounded-md border border-[#E6DFD1]">
                   {clampedProb.toFixed(1)}%
                 </span>
               </div>
 
               {/* Progress bar track */}
-              <div className="w-full bg-white/10 h-3 rounded-full overflow-hidden border border-white/20">
+              <div className="w-full bg-[#EFE9DC] h-3.5 rounded-full overflow-hidden border border-[#DCD3C1] p-0.5">
                 <motion.div
-                  className="h-full bg-linear-to-r from-[#FF007F] via-[#A855F7] to-[#00F5FF] rounded-full"
+                  className="h-full bg-linear-to-r from-[#FFB800] via-[#FF5E57] to-[#FF2A85] rounded-full"
                   initial={{ width: 0 }}
                   animate={{ width: `${clampedProb}%` }}
                   transition={{
                     type: "spring",
-                    stiffness: 75,
+                    stiffness: 95,
                     damping: 15,
-                    delay: 0.2 + idx * 0.1
+                    delay: 0.15 + idx * 0.08
                   }}
                 />
               </div>

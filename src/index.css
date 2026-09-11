@@ -1,235 +1,230 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #06090e;
-  --cyan: #00f0ff;
-  --pink: #ff2a85;
-  --yellow: #ffe600;
-  --purple: #9d4edd;
-  --card-bg: rgba(13, 20, 32, 0.75);
-  --border: rgba(0, 240, 255, 0.3);
+  --bg-paper: #FAF6EE;
+  --paper-card: #FFFDF9;
+  --ink: #1F1C18;
+  --ink-muted: #5C5549;
+  --coral: #FF5E57;
+  --marigold: #FFB800;
+  --hot-pink: #FF2A85;
+  --soft-pink: #FFE3EC;
+  --warm-peach: #FFEED9;
+  --mint: #10B981;
+  --lavender: #8B5CF6;
+  --border-warm: #E6DFD1;
+  --card-shadow: 0 8px 30px rgba(31, 28, 24, 0.08), 0 2px 8px rgba(31, 28, 24, 0.04);
 }
 
 body {
-  background: radial-gradient(circle at 50% 20%, #151b28, var(--bg) 80%);
-  color: #e2e8f0;
-  font-family: 'Space Grotesk', 'Fredoka', sans-serif;
+  background-color: var(--bg-paper);
+  background-image: 
+    radial-gradient(#E8DFCE 1.2px, transparent 1.2px),
+    radial-gradient(ellipse at 80% 10%, rgba(255, 184, 0, 0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 15% 90%, rgba(255, 94, 87, 0.10) 0%, transparent 50%);
+  background-size: 24px 24px, 100% 100%, 100% 100%;
+  color: var(--ink);
+  font-family: 'Plus Jakarta Sans', sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
   position: relative;
 }
 
-/* Ambient CRT Scanline & Grain Glow */
-body::before {
-  content: " ";
-  position: fixed;
-  inset: 0;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
-  background-size: 100% 3px, 6px 100%;
-  pointer-events: none;
-  z-index: 99;
-}
-
-.font-mono-doc, .font-mono {
-  font-family: 'JetBrains Mono', monospace;
+/* Typography Helpers */
+.font-heading {
+  font-family: 'Lilita One', 'Fredoka', cursive, sans-serif;
+  letter-spacing: 0.02em;
 }
 
 .font-chunky {
-  font-family: 'Space Grotesk', 'Fredoka', sans-serif;
+  font-family: 'Fredoka', 'Plus Jakarta Sans', sans-serif;
 }
 
-.font-heading {
-  font-family: 'Space Grotesk', 'Lilita One', sans-serif;
+.font-doodle {
+  font-family: 'Caveat', cursive;
 }
 
-/* Top Nav Clearance Badge */
-.badge-clearance {
-  background: linear-gradient(90deg, #ff0055, #ff5e00);
-  color: white;
-  font-weight: 800;
-  padding: 4px 10px;
-  border-radius: 999px;
-  box-shadow: 0 0 15px rgba(255, 0, 85, 0.5);
-  animation: pulseBadge 2s infinite ease-in-out;
+.font-mono-doc {
+  font-family: 'Space Grotesk', monospace;
 }
 
-/* Dossier Card with Flowing Border */
-.dossier-card {
-  position: relative;
-  background: var(--card-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-radius: 24px;
-  padding: 30px;
-  border: 1px solid var(--border);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 240, 255, 0.12);
-  overflow: hidden;
-  animation: springPop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+/* Warm Paper Cards with Soft Drop Shadows */
+.paper-card {
+  background: var(--paper-card);
+  border: 2px solid var(--border-warm);
+  border-radius: 28px;
+  box-shadow: 0 12px 32px rgba(45, 35, 20, 0.06), 0 2px 8px rgba(45, 35, 20, 0.04);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
 }
 
-.glass-card-hot {
-  background: rgba(26, 11, 36, 0.8);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1.5px solid rgba(255, 42, 133, 0.4);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(255, 42, 133, 0.2);
+.paper-card:hover {
+  box-shadow: 0 16px 40px rgba(45, 35, 20, 0.1), 0 4px 12px rgba(45, 35, 20, 0.05);
 }
 
-.glass-card-cyan {
-  background: rgba(9, 23, 38, 0.8);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1.5px solid rgba(0, 240, 255, 0.4);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 240, 255, 0.2);
+/* Jelly bounce transitions */
+.jelly-hover {
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* Outrageous Floating Meme Sticker */
-.meme-sticker {
-  position: absolute;
-  width: 110px;
-  height: 110px;
-  right: 20px;
-  top: 20px;
-  border-radius: 16px;
-  border: 3px solid var(--yellow);
-  transform: rotate(12deg);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-  animation: floatWiggle 4s ease-in-out infinite;
-  cursor: pointer;
-  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-  z-index: 10;
-  object-fit: cover;
-  background: #000;
+.jelly-hover:hover {
+  transform: scale(1.04) rotate(-0.8deg);
 }
 
-.meme-sticker:hover {
-  transform: scale(1.18) rotate(-4deg);
+.jelly-hover:active {
+  transform: scale(0.96) rotate(1deg);
 }
 
-/* Statement Box with Neon Cyan Glow */
-.quote-box {
-  background: rgba(0, 240, 255, 0.05);
-  border-left: 4px solid var(--cyan);
-  padding: 16px 20px;
-  border-radius: 8px 16px 16px 8px;
-  margin-bottom: 24px;
-  font-size: 1.1rem;
-  font-style: italic;
-  color: #e0f2fe;
+/* Soft Droplet Landing (Gentle squash-and-stretch on verdict reveal) */
+@keyframes dropletLanding {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.85, 1.15);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(6px) scale(1.08, 0.92);
+  }
+  75% {
+    transform: translateY(-2px) scale(0.97, 1.03);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1, 1);
+  }
 }
 
-/* Verdict Box - Ultra Engaging Glow */
-.verdict-box {
-  position: relative;
-  background: linear-gradient(135deg, rgba(255, 42, 133, 0.15), rgba(0, 240, 255, 0.15));
-  border: 2px solid var(--cyan);
-  box-shadow: inset 0 0 25px rgba(0, 240, 255, 0.2), 0 0 30px rgba(255, 42, 133, 0.25);
-  border-radius: 18px;
-  padding: 24px;
-  text-align: center;
-  animation: rubberBand 0.9s ease-out;
+.droplet-landing {
+  animation: dropletLanding 0.65s cubic-bezier(0.34, 1.4, 0.64, 1) forwards;
 }
 
-.verdict-tag {
-  display: inline-block;
-  font-family: 'JetBrains Mono', monospace;
-  color: var(--yellow);
-  font-size: 0.8rem;
-  letter-spacing: 1.5px;
-  margin-bottom: 8px;
+/* Organic Morphing Blobs */
+@keyframes morphBlob1 {
+  0%, 100% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+    transform: rotate(180deg) scale(1.05);
+  }
 }
 
-.verdict-text {
-  font-size: 1.7rem;
-  font-weight: 900;
-  color: #fff;
-  text-shadow: 0 0 15px rgba(0, 240, 255, 0.8);
-  letter-spacing: 1px;
+@keyframes morphBlob2 {
+  0%, 100% {
+    border-radius: 40% 60% 60% 40% / 60% 30% 70% 40%;
+    transform: rotate(0deg);
+  }
+  50% {
+    border-radius: 60% 40% 30% 70% / 40% 60% 50% 50%;
+    transform: rotate(-180deg);
+  }
 }
 
-/* Action Buttons */
-.btn-primary {
-  background: linear-gradient(90deg, #ff2a85, #ff7300);
-  color: white;
-  box-shadow: 0 8px 25px rgba(255, 42, 133, 0.4);
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 800;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+.organic-blob-1 {
+  animation: morphBlob1 16s ease-in-out infinite;
 }
 
-.btn-primary:hover {
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 12px 30px rgba(255, 42, 133, 0.6);
+.organic-blob-2 {
+  animation: morphBlob2 20s ease-in-out infinite;
 }
 
-.btn-primary:active {
-  transform: scale(0.96);
+/* Mascot wobbles & idle breathing */
+@keyframes mascotWobble {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(-6deg) scale(1.05, 0.95); }
+  50% { transform: rotate(5deg) scale(0.96, 1.04); }
+  75% { transform: rotate(-3deg) scale(1.02, 0.98); }
 }
 
-.btn-secondary {
-  background: rgba(255, 255, 255, 0.06);
-  color: #e2e8f0;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 800;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
+.mascot-wobble:hover {
+  animation: mascotWobble 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.12);
-  transform: translateY(-2px);
+@keyframes gentleFloat {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-6px) rotate(2deg); }
 }
 
-/* Glitch Text Effect */
-.glitch-text {
-  text-shadow: -2px 0 #ff2a85, 2px 0 #00f0ff;
+.gentle-float {
+  animation: gentleFloat 3.8s ease-in-out infinite;
 }
 
-/* Keyframe Animations */
-@keyframes springPop {
-  0% { opacity: 0; transform: scale(0.92) translateY(30px); }
-  100% { opacity: 1; transform: scale(1) translateY(0); }
-}
-
-@keyframes floatWiggle {
-  0%, 100% { transform: translateY(0px) rotate(12deg); }
-  50% { transform: translateY(-8px) rotate(6deg); }
-}
-
-@keyframes pulseBadge {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.05); opacity: 0.85; }
-}
-
-@keyframes rubberBand {
-  0% { transform: scale(1); }
-  30% { transform: scaleX(1.12) scaleY(0.88); }
-  40% { transform: scaleX(0.88) scaleY(1.12); }
-  60% { transform: scaleX(1.04) scaleY(0.96); }
-  100% { transform: scale(1); }
-}
-
-@keyframes screen-shake-intense {
-  0% { transform: translate(0, 0) rotate(0deg); }
-  10% { transform: translate(-8px, -6px) rotate(-1.5deg); }
-  20% { transform: translate(8px, 6px) rotate(1.5deg); }
-  30% { transform: translate(-6px, 4px) rotate(-1deg); }
-  40% { transform: translate(6px, -4px) rotate(1deg); }
-  50% { transform: translate(-4px, 2px) rotate(-0.5deg); }
-  100% { transform: translate(0, 0) rotate(0deg); }
+/* Screen shake for high drama moments */
+@keyframes screenShakeGentle {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  20% { transform: translate(-3px, 2px) rotate(-0.5deg); }
+  40% { transform: translate(3px, -2px) rotate(0.5deg); }
+  60% { transform: translate(-2px, -1px) rotate(-0.3deg); }
+  80% { transform: translate(2px, 1px) rotate(0.3deg); }
 }
 
 .animate-screen-shake {
-  animation: screen-shake-intense 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  animation: screenShakeGentle 0.45s ease-out both;
 }
 
-.neon-glow-pink {
-  box-shadow: 0 0 24px rgba(255, 42, 133, 0.6);
+/* Buttons with tactile punch */
+.btn-punchy-coral {
+  background-color: var(--coral);
+  color: #FFFFFF;
+  border-radius: 18px;
+  box-shadow: 0 4px 14px rgba(255, 94, 87, 0.35), 0 2px 0 #E04842;
+  font-family: 'Lilita One', 'Fredoka', sans-serif;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.neon-glow-cyan {
-  box-shadow: 0 0 24px rgba(0, 240, 255, 0.6);
+.btn-punchy-coral:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 6px 20px rgba(255, 94, 87, 0.45), 0 3px 0 #E04842;
+}
+
+.btn-punchy-coral:active {
+  transform: translateY(2px) scale(0.98);
+  box-shadow: 0 2px 6px rgba(255, 94, 87, 0.3), 0 0 0 #E04842;
+}
+
+.btn-punchy-yellow {
+  background-color: var(--marigold);
+  color: #1F1C18;
+  border-radius: 18px;
+  box-shadow: 0 4px 14px rgba(255, 184, 0, 0.35), 0 2px 0 #E0A000;
+  font-family: 'Lilita One', 'Fredoka', sans-serif;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.btn-punchy-yellow:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 6px 20px rgba(255, 184, 0, 0.45), 0 3px 0 #E0A000;
+}
+
+.btn-punchy-yellow:active {
+  transform: translateY(2px) scale(0.98);
+  box-shadow: 0 2px 6px rgba(255, 184, 0, 0.3), 0 0 0 #E0A000;
+}
+
+.btn-warm-neutral {
+  background-color: #FFFFFF;
+  color: var(--ink);
+  border: 2px solid var(--border-warm);
+  border-radius: 18px;
+  box-shadow: 0 3px 8px rgba(31, 28, 24, 0.05);
+  font-family: 'Fredoka', sans-serif;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.btn-warm-neutral:hover {
+  background-color: #FAF6EE;
+  border-color: #D6CEBE;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(31, 28, 24, 0.08);
+}
+
+.btn-warm-neutral:active {
+  transform: translateY(1px);
+}
+
+/* Doodle tape sticker */
+.washi-tape {
+  background: rgba(255, 238, 217, 0.85);
+  border: 1px dashed rgba(255, 184, 0, 0.6);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
 }

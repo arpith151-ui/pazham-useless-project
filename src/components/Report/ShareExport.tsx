@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { toPng } from 'html-to-image';
 import confetti from 'canvas-confetti';
-import { Download, Share2, Check, Loader2 } from 'lucide-react';
+import { Share2, Check, Loader2 } from 'lucide-react';
 import { CaseReport } from '../../types';
 import { playPop } from '../../lib/sound';
 
@@ -14,11 +14,13 @@ interface ShareExportProps {
 export const ShareExport: React.FC<ShareExportProps> = ({ reportRef, caseReport, onCycleMeme }) => {
   const [isExporting, setIsExporting] = useState(false);
   const [hasCopied, setHasCopied] = useState(false);
+  const [exportNotice, setExportNotice] = useState<string | null>(null);
 
   const handleDownloadPng = async () => {
     if (!reportRef.current) return;
     playPop();
     setIsExporting(true);
+    setExportNotice(null);
 
     try {
       // Confetti burst on export
@@ -27,13 +29,13 @@ export const ShareExport: React.FC<ShareExportProps> = ({ reportRef, caseReport,
           particleCount: 50,
           spread: 60,
           origin: { y: 0.8 },
-          colors: ['#00f0ff', '#ff2a85', '#ffe600']
+          colors: ['#FF5E57', '#FFB800', '#FF2A85']
         });
       } catch (_e) {}
 
       const dataUrl = await toPng(reportRef.current, {
         cacheBust: true,
-        backgroundColor: '#06090e',
+        backgroundColor: '#FAF6EE',
         pixelRatio: 2,
         style: {
           transform: 'none',
@@ -42,12 +44,14 @@ export const ShareExport: React.FC<ShareExportProps> = ({ reportRef, caseReport,
       });
 
       const link = document.createElement('a');
-      link.download = `${caseReport.caseId}-BRAINROT-DOSSIER.png`;
+      link.download = `${caseReport.caseId}-PAZHAM-DOSSIER.png`;
       link.href = dataUrl;
       link.click();
     } catch (err) {
-      console.error('Failed to export report image:', err);
-      alert("Notice: Screenshot this window to share your official case docket!");
+      console.warn('Direct canvas export limitation encountered; providing screenshot advice and auto-copying roast:', err);
+      handleCopySummary();
+      setExportNotice("📸 Tip: Take a quick screenshot to share, or paste the copied roast!");
+      setTimeout(() => setExportNotice(null), 5000);
     } finally {
       setIsExporting(false);
     }
@@ -77,7 +81,7 @@ export const ShareExport: React.FC<ShareExportProps> = ({ reportRef, caseReport,
         type="button"
         onClick={handleDownloadPng}
         disabled={isExporting}
-        className="btn btn-primary px-5 py-3 rounded-xl flex items-center gap-2 cursor-pointer disabled:opacity-50 text-xs sm:text-sm"
+        className="btn-punchy-coral px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl flex items-center gap-2 cursor-pointer disabled:opacity-50 text-xs sm:text-sm jelly-hover"
       >
         {isExporting ? (
           <>
@@ -95,9 +99,9 @@ export const ShareExport: React.FC<ShareExportProps> = ({ reportRef, caseReport,
         <button
           type="button"
           onClick={() => { playPop(); onCycleMeme(); }}
-          className="btn btn-secondary px-4 py-3 rounded-xl flex items-center gap-2 cursor-pointer text-xs sm:text-sm"
+          className="btn-warm-neutral px-3.5 sm:px-4 py-2.5 sm:py-3 rounded-2xl flex items-center gap-2 cursor-pointer text-xs sm:text-sm font-bold jelly-hover"
         >
-          <span>🤡 SWAP MEME</span>
+          <span>🤡 SWAP STICKER</span>
         </button>
       )}
 
@@ -106,20 +110,26 @@ export const ShareExport: React.FC<ShareExportProps> = ({ reportRef, caseReport,
         type="button"
         onClick={handleCopySummary}
         title="Copy text summary of case file"
-        className="btn btn-secondary px-4 py-3 rounded-xl flex items-center gap-2 cursor-pointer text-xs sm:text-sm"
+        className="btn-warm-neutral px-3.5 sm:px-4 py-2.5 sm:py-3 rounded-2xl flex items-center gap-2 cursor-pointer text-xs sm:text-sm font-bold jelly-hover"
       >
         {hasCopied ? (
           <>
-            <Check className="w-4 h-4 text-[#00f0ff]" />
-            <span className="text-[#00f0ff]">COPIED!</span>
+            <Check className="w-4 h-4 text-[#10B981]" />
+            <span className="text-[#10B981]">COPIED!</span>
           </>
         ) : (
           <>
-            <Share2 className="w-4 h-4 text-[#ff2a85]" />
+            <Share2 className="w-4 h-4 text-[#FF5E57]" />
             <span>COPY ROAST</span>
           </>
         )}
       </button>
+
+      {exportNotice && (
+        <div className="w-full font-mono-doc text-[11px] text-[#FF5E57] bg-[#FFE3EC] border border-[#FF2A85]/30 p-2 rounded-xl mt-1 text-center font-bold">
+          {exportNotice}
+        </div>
+      )}
     </div>
   );
 };

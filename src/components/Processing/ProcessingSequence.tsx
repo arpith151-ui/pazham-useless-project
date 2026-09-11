@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'motion/react';
-import { Check, Loader2, Flame, Sparkles } from 'lucide-react';
+import { Check, Loader2, Sparkles, Flame } from 'lucide-react';
 import { playPop, playCashRegisterDing } from '../../lib/sound';
+import { BananaMascot } from '../Mascot/BananaMascot';
+import { HeartMascot } from '../Mascot/HeartMascot';
 
 interface ProcessingSequenceProps {
   onComplete: () => void;
@@ -13,7 +15,7 @@ const BRAINROT_INVESTIGATION_STEPS = [
   "Calculating millisecond pause between 'delivered' and 'read' 💀",
   "Checking if target's Snap score moved while leaving you on delivered 📱",
   "Measuring blue vs grey message bubble disparity ratio 📉",
-  "Cross-referencing delulu index with TikTok brainrot charts ✨",
+  "Cross-referencing delulu index with astrology & TikTok charts ✨",
   "Finalizing certified cooked verdict on god fr fr 🔥"
 ];
 
@@ -31,6 +33,11 @@ export const ProcessingSequence: React.FC<ProcessingSequenceProps> = ({
 }) => {
   const steps = isAppeal ? BRAINROT_APPEAL_STEPS : BRAINROT_INVESTIGATION_STEPS;
   const [completedSteps, setCompletedSteps] = useState<number>(0);
+  const onCompleteRef = useRef(onComplete);
+
+  useEffect(() => {
+    onCompleteRef.current = onComplete;
+  }, [onComplete]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -41,7 +48,7 @@ export const ProcessingSequence: React.FC<ProcessingSequenceProps> = ({
           clearInterval(interval);
           playCashRegisterDing();
           setTimeout(() => {
-            onComplete();
+            onCompleteRef.current();
           }, 450);
           return steps.length;
         }
@@ -50,39 +57,56 @@ export const ProcessingSequence: React.FC<ProcessingSequenceProps> = ({
     }, 550);
 
     return () => clearInterval(interval);
-  }, [steps.length, onComplete]);
+  }, [steps.length]);
 
   const progressPercent = Math.min(100, Math.round((completedSteps / steps.length) * 100));
 
   return (
-    <div className="w-full max-w-lg px-4 py-12 mx-auto flex flex-col items-center">
-      {/* Neon Glassmorphic Dossier Card */}
+    <div className="w-full max-w-lg px-4 py-8 mx-auto flex flex-col items-center relative z-10">
+      {/* Mascots reacting to the investigation in real time */}
+      <div className="flex items-center justify-between w-full px-6 mb-2">
+        {/* Shocked / Sweating Banana Mascot */}
+        <BananaMascot
+          mood="shocked"
+          size={95}
+          speechText={isAppeal ? "Emergency Copium! 💅" : "THE RECEIPTS ARE WILD 💀"}
+        />
+
+        {/* Nervous Overthinking Heart */}
+        <HeartMascot
+          mood="nervous"
+          size={64}
+          speechText="Heart rate 140 bpm 💓"
+        />
+      </div>
+
+      {/* Warm Paper Progress Dossier */}
       <motion.div
         initial={{ scale: 0.94, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        transition={{ type: "spring", stiffness: 200, damping: 20 }}
-        className="w-full glass-card-hot p-6 sm:p-8 rounded-3xl relative overflow-hidden"
+        transition={{ type: "spring", stiffness: 260, damping: 20 }}
+        className="w-full paper-card p-6 sm:p-8 relative overflow-hidden"
       >
         {/* Top Header Badge */}
-        <div className="flex items-center justify-between border-b border-white/20 pb-4 mb-5">
+        <div className="flex items-center justify-between border-b-2 border-[#E6DFD1] pb-4 mb-5">
           <div className="flex items-center gap-2">
-            <span className="w-3 h-3 rounded-full bg-[#FF007F] animate-ping" />
-            <span className="font-heading text-sm text-[#00F5FF] tracking-wide uppercase">
-              {isAppeal ? "APPELLATE COPIUM IN PROGRESS 💅" : "ACTIVE FORENSIC SCAN // DO NOT BLINK 🚨"}
+            <span className="w-3 h-3 rounded-full bg-[#FF5E57] animate-ping" />
+            <span className="font-heading text-sm text-[#FF5E57] tracking-wide uppercase">
+              {isAppeal ? "APPELLATE COPIUM IN PROGRESS 💅" : "FORENSIC SCAN // DO NOT BLINK 🚨"}
             </span>
           </div>
-          <span className="font-mono-doc text-sm font-black text-white tabular-nums bg-white/10 px-2.5 py-0.5 rounded-lg border border-white/20">
+          <span className="font-mono-doc text-sm font-black text-[#1F1C18] tabular-nums bg-[#FFEED9] px-2.5 py-0.5 rounded-lg border border-[#FFB800]">
             {progressPercent}%
           </span>
         </div>
 
-        {/* Big Neon Gradient Progress Bar */}
-        <div className="w-full bg-black/40 h-4 rounded-full overflow-hidden border border-white/20 p-0.5 mb-6">
+        {/* Tactile Liquid Progress Bar */}
+        <div className="w-full bg-[#EFE9DC] h-4 rounded-full overflow-hidden border border-[#DCD3C1] p-0.5 mb-6">
           <motion.div
-            className="h-full rounded-full bg-linear-to-r from-[#FF007F] via-[#A855F7] to-[#00F5FF]"
-            initial={{ width: "5%" }}
-            animate={{ width: `${Math.max(5, progressPercent)}%` }}
-            transition={{ type: "spring", stiffness: 120, damping: 18 }}
+            className="h-full rounded-full bg-linear-to-r from-[#FFB800] via-[#FF5E57] to-[#FF2A85]"
+            initial={{ width: "6%" }}
+            animate={{ width: `${Math.max(6, progressPercent)}%` }}
+            transition={{ type: "spring", stiffness: 140, damping: 18 }}
           />
         </div>
 
@@ -95,29 +119,30 @@ export const ProcessingSequence: React.FC<ProcessingSequenceProps> = ({
             return (
               <motion.div
                 key={index}
-                initial={{ opacity: 0.35, x: -8 }}
+                initial={{ opacity: 0.35, x: -6 }}
                 animate={{
                   opacity: isDone ? 1 : isCurrent ? 1 : 0.35,
-                  x: isCurrent ? 4 : 0
+                  x: isCurrent ? 4 : 0,
+                  scale: isCurrent ? 1.02 : 1
                 }}
-                transition={{ duration: 0.2 }}
-                className={`flex items-center gap-3 p-3 rounded-2xl transition-all border ${
+                transition={{ type: "spring", stiffness: 350, damping: 20 }}
+                className={`flex items-center gap-3 p-3 rounded-2xl transition-all border-2 ${
                   isDone
-                    ? "bg-[#00F5FF]/10 border-[#00F5FF]/40 text-white"
+                    ? "bg-[#F0FDF4] border-[#86EFAC] text-[#166534]"
                     : isCurrent
-                    ? "bg-[#FF007F]/20 border-[#FF007F] text-[#FF007F] font-bold neon-glow-pink scale-[1.01]"
-                    : "border-transparent text-slate-500"
+                    ? "bg-[#FFE3EC] border-[#FF2A85] text-[#FF2A85] font-bold shadow-xs"
+                    : "border-transparent text-[#8C8275]"
                 }`}
               >
                 <div className="shrink-0">
                   {isDone ? (
-                    <div className="w-6 h-6 rounded-full bg-[#00F5FF] text-black flex items-center justify-center font-bold">
+                    <div className="w-6 h-6 rounded-full bg-[#10B981] text-white flex items-center justify-center font-bold">
                       <Check className="w-4 h-4 stroke-[3]" />
                     </div>
                   ) : isCurrent ? (
-                    <Loader2 className="w-6 h-6 text-[#FF007F] animate-spin" />
+                    <Loader2 className="w-6 h-6 text-[#FF2A85] animate-spin" />
                   ) : (
-                    <div className="w-6 h-6 rounded-full border border-white/20" />
+                    <div className="w-6 h-6 rounded-full border-2 border-[#DCD3C1]" />
                   )}
                 </div>
 
@@ -128,9 +153,9 @@ export const ProcessingSequence: React.FC<ProcessingSequenceProps> = ({
         </div>
 
         {/* Footer info */}
-        <div className="mt-6 pt-4 border-t border-white/15 text-center font-mono-doc text-[11px] text-slate-300 flex items-center justify-center gap-2">
-          <Flame className="w-4 h-4 text-yellow-300" />
-          <span>DO NOT PANIC • OVERTHINKING TELEMETRY BEING LOGGED IN 4K</span>
+        <div className="mt-6 pt-4 border-t-2 border-[#E6DFD1] text-center font-mono-doc text-xs text-[#8C8275] flex items-center justify-center gap-1.5">
+          <Flame className="w-4 h-4 text-[#FFB800]" />
+          <span>OVERTHINKING TELEMETRY BEING LOGGED IN REAL TIME</span>
         </div>
       </motion.div>
     </div>

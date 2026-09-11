@@ -14,7 +14,7 @@ export async function submitInvestigation(
 
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 7500);
+    const timeoutId = setTimeout(() => controller.abort(), 22000);
 
     const response = await fetch('/api/investigate', {
       method: 'POST',
@@ -67,7 +67,7 @@ export async function submitAppeal(
 
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 7500);
+    const timeoutId = setTimeout(() => controller.abort(), 22000);
 
     const response = await fetch('/api/appeal', {
       method: 'POST',
